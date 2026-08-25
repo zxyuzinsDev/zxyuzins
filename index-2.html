@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>VIZX UBOT — Daftar</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0e1621;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      padding: 12px;
+      min-height: 100vh;
+    }
+    .card {
+      background: #17212b;
+      border-radius: 12px;
+      padding: 14px 14px 10px;
+      border: 1px solid #242f3d;
+      max-width: 420px;
+      margin: 0 auto 14px;
+    }
+    .brand {
+      color: #ee6868;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th, td {
+      border: 1px solid #242f3d;
+      padding: 10px 12px;
+      text-align: left;
+    }
+    th {
+      background: #1e2a38;
+      color: #fff;
+      font-weight: 600;
+      width: 40%;
+    }
+    td {
+      color: #e4ecf2;
+      background: #17212b;
+    }
+    td.accent { color: #6ab2f2; }
+    .btn-wrap {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 0 0 20px;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      background: #2aabee;
+      color: #fff;
+      text-align: center;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:active { opacity: 0.9; }
+    .modules {
+      max-width: 420px;
+      margin: 0 auto 16px;
+    }
+    .modules h3 {
+      font-size: 14px;
+      color: #8b9aab;
+      margin: 12px 0 8px;
+      font-weight: 600;
+    }
+    .mod-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .mod-item {
+      background: #17212b;
+      border: 1px solid #242f3d;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 13px;
+      color: #e4ecf2;
+    }
+    .mod-item span {
+      display: block;
+      color: #6ab2f2;
+      font-size: 12px;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">VIZX UBOT</div>
+    <div class="title">Daftar Modul</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Nama</td>
+          <td id="v-nama">VIZX UBOT</td>
+        </tr>
+        <tr>
+          <td>Username</td>
+          <td class="accent" id="v-user">@VIZXUBOT</td>
+        </tr>
+        <tr>
+          <td>Uid</td>
+          <td id="v-uid">—</td>
+        </tr>
+        <tr>
+          <td>Prefix</td>
+          <td id="v-prefix">.</td>
+        </tr>
+        <tr>
+          <td>Modul</td>
+          <td id="v-modul">1285+</td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td class="accent" id="v-status">AKTIF</td>
+        </tr>
+        <tr>
+          <td>Tgl/Jam</td>
+          <td id="v-tgl">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modules">
+    <h3>Perintah cepat</h3>
+    <div class="mod-grid">
+      <div class="mod-item">.alive<span>Cek status ubot</span></div>
+      <div class="mod-item">.ping<span>Kecepatan respon</span></div>
+      <div class="mod-item">.help<span>Menu ini</span></div>
+      <div class="mod-item">.self / .public<span>Akses tombol</span></div>
+      <div class="mod-item">.ai<span>Chat AI</span></div>
+      <div class="mod-item">.tr<span>Translate</span></div>
+      <div class="mod-item">.kick<span>Tendang member</span></div>
+      <div class="mod-item">.tagall<span>Tag semua</span></div>
+    </div>
+  </div>
+
+  <div class="btn-wrap">
+    <button class="btn" type="button" onclick="closeApp()">BOT AMPREM ↗</button>
+  </div>
+
+  <script>
+    const tg = window.Telegram && window.Telegram.WebApp;
+    if (tg) {
+      tg.ready();
+      tg.expand();
+      try {
+        const u = tg.initDataUnsafe && tg.initDataUnsafe.user;
+        if (u) {
+          if (u.first_name) {
+            document.getElementById('v-nama').textContent = [u.first_name, u.last_name].filter(Boolean).join(' ');
+          }
+          if (u.username) document.getElementById('v-user').textContent = '@' + u.username;
+          if (u.id) document.getElementById('v-uid').textContent = String(u.id);
+        }
+      } catch (e) {}
+    }
+    try {
+      const q = new URLSearchParams(location.search);
+      if (q.get('prefix')) document.getElementById('v-prefix').textContent = q.get('prefix');
+      if (q.get('modul')) document.getElementById('v-modul').textContent = q.get('modul');
+      if (q.get('nama')) document.getElementById('v-nama').textContent = q.get('nama');
+      if (q.get('user')) document.getElementById('v-user').textContent = q.get('user');
+      if (q.get('uid')) document.getElementById('v-uid').textContent = q.get('uid');
+    } catch (e) {}
+    const now = new Date();
+    document.getElementById('v-tgl').textContent = now.toLocaleString('id-ID', {
+      day: 'numeric', month: 'short', year: 'numeric',
+      hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jakarta'
+    });
+    function closeApp() {
+      if (tg) tg.close();
+      else window.close();
+    }
+  </script>
+</body>
+</html>
